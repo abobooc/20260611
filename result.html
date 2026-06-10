@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最終結果</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>挑戰結果</h1>
+        </header>
+        <main>
+            <div class="result-summary">
+                <h2>恭喜你完成所有關卡！</h2>
+                <p>你已完成：</p>
+                <ul>
+                    <li id="level1-status">第一關：演唱會生存指南 <span class="status-icon"></span></li>
+                    <li id="level2-status">第二關：追星理財術 <span class="status-icon"></span></li>
+                    <li id="level3-status">第三關：優質粉絲養成計畫 <span class="status-icon"></span></li>
+                </ul>
+                <p>你的總分是：<span class="score" id="totalScore">0</span> 分</p>
+                <p>你的稱號是：<span class="title" id="fanTitle"></span></p>
+                <div class="result-actions">
+                    <button class="next-level-button" onclick="restartChallenge()">重新挑戰</button>
+                    <button class="next-level-button" onclick="navigateTo('index.html')">回首頁</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            displayResults();
+        });
+
+        function displayResults() {
+            const level1Completed = loadProgress('level1_completed');
+            const level2Completed = loadProgress('level2_completed');
+            const level3Completed = loadProgress('level3_completed');
+
+            const level1Score = loadProgress('level1_score') || 0;
+            const level2Score = loadProgress('level2_score') || 0;
+            const level3Score = loadProgress('level3_score') || 0;
+
+            const totalScore = level1Score + level2Score + level3Score;
+
+            document.getElementById('totalScore').textContent = totalScore;
+
+            document.getElementById('level1-status').querySelector('.status-icon').textContent = level1Completed ? '✅' : '❌';
+            document.getElementById('level2-status').querySelector('.status-icon').textContent = level2Completed ? '✅' : '❌';
+            document.getElementById('level3-status').querySelector('.status-icon').textContent = level3Completed ? '✅' : '❌';
+
+            let fanTitle = '';
+            if (totalScore >= 90) {
+                fanTitle = '追星達人';
+            } else if (totalScore >= 70) {
+                fanTitle = '理性追星家';
+            } else if (totalScore >= 60) {
+                fanTitle = '優質粉絲新秀';
+            } else {
+                fanTitle = '再挑戰一次吧';
+            }
+            document.getElementById('fanTitle').textContent = fanTitle;
+        }
+
+        function restartChallenge() {
+            clearProgress();
+            initializeScores();
+            navigateTo('index.html');
+        }
+    </script>
+</body>
+</html>

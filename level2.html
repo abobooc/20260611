@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第二關：追星理財術</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>第二關：追星理財術</h1>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%;">0%</div>
+            </div>
+            <div class="score-display">分數: <span id="currentScore">0</span></div>
+            <p>你的追星基金：<span id="totalFund">10000</span> 元</p>
+        </header>
+        <main>
+            <div id="task1" class="quiz-section">
+                <h3>任務一：預算分配挑戰</h3>
+                <p>劇情：你抵達了會場，看著豐富的商品，請先規劃你的 10,000 元預算（備用金建議至少 1,000 元）：</p>
+                <div class="budget-inputs">
+                    <div class="budget-input-group">
+                        <label for="food">餐飲: <span id="foodVal">400</span> 元 (建議 300~500)</label>
+                        <input type="range" id="food" value="400" min="0" max="10000" step="100" oninput="updateBudgetSummary()">
+                    </div>
+                    <div class="budget-input-group">
+                        <label for="transport">交通: <span id="transportVal">300</span> 元 (建議 200~500)</label>
+                        <input type="range" id="transport" value="300" min="0" max="10000" step="100" oninput="updateBudgetSummary()">
+                    </div>
+                    <div class="budget-input-group">
+                        <label for="merchandise">周邊商品: <span id="merchandiseVal">0</span> 元</label>
+                        <input type="range" id="merchandise" value="0" min="0" max="10000" step="100" oninput="updateBudgetSummary()">
+                    </div>
+                    <div class="budget-input-group">
+                        <label for="album">專輯: <span id="albumVal">0</span> 元</label>
+                        <input type="range" id="album" value="0" min="0" max="10000" step="100" oninput="updateBudgetSummary()">
+                    </div>
+                    <div class="budget-input-group">
+                        <label for="support">應援活動: <span id="supportVal">0</span> 元</label>
+                        <input type="range" id="support" value="0" min="0" max="10000" step="100" oninput="updateBudgetSummary()">
+                    </div>
+                    <div class="budget-input-group">
+                        <label for="emergency">備用金: <span id="emergencyVal">0</span> 元</label>
+                        <input type="range" id="emergency" value="0" min="0" max="10000" step="100" oninput="updateBudgetSummary()">
+                    </div>
+                </div>
+                <div id="budgetSummary" class="budget-summary">
+                    總分配：0 元 / 剩餘：10000 元
+                </div>
+                <button class="next-task-button" onclick="checkTask1()" disabled>確認分配</button>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+
+            <div id="task2" class="quiz-section" style="display: none;">
+                <h3>任務二：商品選購挑戰</h3>
+                <p>劇情：來到商品區，請根據你剛才分配的預算選購商品：</p>
+                <div class="merchandise-list">
+                    <div class="merchandise-item">
+                        <label><input type="checkbox" name="product" value="官方手燈" data-price="1800" onchange="updateMerchandiseSummary()"> 官方手燈</label>
+                        <span>1800 元</span>
+                    </div>
+                    <div class="merchandise-item">
+                        <label><input type="checkbox" name="product" value="演唱會T恤" data-price="1200" onchange="updateMerchandiseSummary()"> 演唱會T恤</label>
+                        <span>1200 元</span>
+                    </div>
+                    <div class="merchandise-item">
+                        <label><input type="checkbox" name="product" value="隨機小卡" data-price="300" onchange="updateMerchandiseSummary()"> 隨機小卡</label>
+                        <span>300 元</span>
+                    </div>
+                    <div class="merchandise-item">
+                        <label><input type="checkbox" name="product" value="限量娃娃" data-price="2500" onchange="updateMerchandiseSummary()"> 限量娃娃</label>
+                        <span>2500 元</span>
+                    </div>
+                    <div class="merchandise-item">
+                        <label><input type="checkbox" name="product" value="專輯" data-price="700" onchange="updateMerchandiseSummary()"> 專輯</label>
+                        <span>700 元</span>
+                    </div>
+                </div>
+                <div id="merchandiseSummary" class="budget-summary">
+                    已選商品總價：0 元 / 可用購物預算：0 元
+                </div>
+                <button class="next-task-button" id="btnTask2" onclick="checkTask2()" disabled>確認選購</button>
+                <div id="feedback2" class="feedback"></div>
+            </div>
+
+            <div id="task3" class="quiz-section" style="display: none;">
+                <h3>任務三：衝動消費事件</h3>
+                <p>劇情：排隊時突然宣布：🔥 限量拍立得加購活動！僅剩最後 50 份！你會怎麼做？</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="impulse" value="馬上刷卡購買"> 馬上刷卡購買</label>
+                    <label><input type="radio" name="impulse" value="B"> 先確認剩餘預算</label>
+                    <label><input type="radio" name="impulse" value="借朋友錢購買"> 借朋友錢購買</label>
+                    <label><input type="radio" name="impulse" value="使用未來生活費購買"> 使用未來生活費購買</label>
+                </div>
+                <button class="next-task-button" id="btnTask3" onclick="checkTask3()" disabled>確認選擇</button>
+                <div id="feedback3" class="feedback"></div>
+            </div>
+
+            <div id="task4" class="quiz-section" style="display: none;">
+                <h3>任務四：意外事件</h3>
+                <p>劇情：演唱會結束後，回程捷運因故停駛，需要改搭計程車，車資需要 500 元。</p>
+                <button class="next-task-button" onclick="checkEmergencyEvent()">檢查備用金狀態</button>
+                <div id="feedback4" class="feedback"></div>
+            </div>
+
+            <div id="task5" class="quiz-section" style="display: none;">
+                <h3>關卡總測驗</h3>
+                <div class="test-item">
+                    <p>1. 下列哪項最屬於必要支出？</p>
+                    <select id="q1"><option value="">請選擇</option><option value="A">A. 限量小卡</option><option value="B">B. 餐費</option><option value="C">C. 娃娃</option></select>
+                </div>
+                <div class="test-item">
+                    <p>2. 遇到限量商品時應優先考慮？</p>
+                    <select id="q2"><option value="">請選擇</option><option value="A">A. 是否買得到</option><option value="B">B. 是否符合預算</option><option value="C">C. 是否會漲價</option></select>
+                </div>
+                <div class="test-item">
+                    <p>3. 備用金主要用途是？</p>
+                    <select id="q3"><option value="">請選擇</option><option value="A">A. 買更多周邊</option><option value="B">B. 應付突發狀況</option><option value="C">C. 抽隨機商品</option></select>
+                </div>
+                <button class="next-task-button" onclick="checkFinalTest()">送出測驗</button>
+                <div id="feedback5" class="feedback"></div>
+            </div>
+
+            <div id="level-complete" style="display: none;">
+                <h2>🎉 恭喜完成第二關！</h2>
+                <div class="achievement-list" style="text-align: left; display: inline-block; margin: 20px 0;">
+                    <p>✅ 已學會：區分需要與想要</p>
+                    <p>✅ 已學會：規劃追星預算</p>
+                    <p>✅ 已學會：保留緊急備用金</p>
+                    <p>✅ 已學會：避免衝動消費</p>
+                </div>
+                <p>獲得稱號：<strong>🏅 理性追星新手</strong></p>
+                <p style="font-style: italic; color: #666;">劇情：演唱會結束了！你成功進入會場，也控制好預算。接下來，讓我們學習如何成為一名有禮貌的優質粉絲。</p>
+                <button class="next-level-button" onclick="navigateTo('level3.html')">前往第三關</button>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        let level2Score = 0;
+        let currentTask = 1;
+        const totalTasks = 5;
+        const initialFund = 10000;
+        
+        // 理財數據追蹤
+        let allocatedEmergency = 0;
+        let allocatedShoppingBudget = 0; 
+        let remainingFund = 0;
+
+        const merchandisePrices = {
+            "官方手燈": 1800,
+            "演唱會T恤": 1200,
+            "隨機小卡": 300,
+            "限量娃娃": 2500,
+            "專輯": 700
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeScores();
+            updateProgressBar();
+            document.getElementById('currentScore').textContent = level2Score;
+            document.getElementById('totalFund').textContent = initialFund;
+            updateBudgetSummary();
+
+            document.querySelectorAll('#task3 input[name="impulse"]').forEach(rb => {
+                rb.addEventListener('change', () => {
+                    document.getElementById('btnTask3').disabled = false;
+                });
+            });
+        });
+
+        function updateProgressBar() {
+            const progress = (currentTask - 1) / totalTasks * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = `${progress}%`;
+            progressBar.textContent = `${Math.round(progress)}%`;
+        }
+
+        function showNextTask() {
+            document.getElementById(`task${currentTask}`).style.display = 'none';
+            currentTask++;
+            if (currentTask <= totalTasks) {
+                document.getElementById(`task${currentTask}`).style.display = 'block';
+                updateProgressBar();
+                if(currentTask === 2) {
+                    updateMerchandiseSummary(); // 初始化購物畫面
+                }
+            } else {
+                document.getElementById('level-complete').style.display = 'block';
+                const progressBar = document.getElementById('progressBar');
+                progressBar.style.width = '100%';
+                progressBar.textContent = '100%';
+                saveProgress('level2_completed', true);
+                saveProgress('level2_score', level2Score);
+            }
+        }
+
+        function calculateCurrentBudget() {
+            const food = parseInt(document.getElementById('food').value) || 0;
+            const transport = parseInt(document.getElementById('transport').value) || 0;
+            const merchandise = parseInt(document.getElementById('merchandise').value) || 0;
+            const album = parseInt(document.getElementById('album').value) || 0;
+            const support = parseInt(document.getElementById('support').value) || 0;
+            const emergency = parseInt(document.getElementById('emergency').value) || 0;
+            const shopping = merchandise + album + support;
+            return { totalAllocated: food + transport + shopping + emergency, emergency, shopping };
+        }
+
+        function updateBudgetSummary() {
+            // 更新顯示各項目的當前數值
+            const ids = ['food', 'transport', 'merchandise', 'album', 'support', 'emergency'];
+            ids.forEach(id => {
+                document.getElementById(id + 'Val').textContent = document.getElementById(id).value;
+            });
+
+            const { totalAllocated, emergency, shopping } = calculateCurrentBudget();
+            const currentRemaining = initialFund - totalAllocated;
+            allocatedEmergency = emergency; // 存儲供後續關卡使用
+            allocatedShoppingBudget = shopping;
+
+            const budgetSummaryDiv = document.getElementById('budgetSummary');
+            budgetSummaryDiv.textContent = `總分配：${totalAllocated} 元 / 剩餘：${currentRemaining} 元`;
+
+            const isValid = totalAllocated <= initialFund && emergency >= 1000;
+            if (!isValid) {
+                budgetSummaryDiv.classList.add('error');
+            } else {
+                budgetSummaryDiv.classList.remove('error');
+            }
+            document.querySelector('#task1 button').disabled = !isValid;
+        }
+
+        function checkTask1() {
+            const { totalAllocated, emergency, shopping } = calculateCurrentBudget();
+            const feedbackDiv = document.getElementById('feedback1');
+
+            if (totalAllocated <= initialFund && emergency >= 1000) {
+                level2Score += 30;
+                feedbackDiv.innerHTML = '✅ 預算規劃良好！你展現了優秀的理財潛力。<br><small>註解：先確保餐飲、交通與「備用金」這三項生存預算，剩餘的才是可以自由支配的娛樂金，這是理性理財的核心觀念。</small>';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                feedbackDiv.innerHTML = emergency < 1000 ? '⚠️ 警告：緊急預備金不足！<br><small>註解：若沒有預留至少 1,000 元，遇到意外（如丟失錢包或回程交通異動）時將會陷入困境。請減少非必要支出，補足備用金。</small>' : '❌ 錯誤：已超出預算！<br><small>註解：你的分配總額超過了現有的 10,000 元。理財的第一原則是不超支消費，避免產生負債。</small>';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            document.getElementById('currentScore').textContent = level2Score;
+            document.querySelectorAll('#task1 input[type="range"]').forEach(input => input.disabled = true);
+            document.querySelector('#task1 button').disabled = true;
+            setTimeout(showNextTask, 1500);
+        }
+
+        function updateMerchandiseSummary() {
+            let selectedPrice = 0;
+            document.querySelectorAll('#task2 input[name="product"]:checked').forEach(cb => {
+                selectedPrice += parseInt(cb.dataset.price);
+            });
+            const currentRemaining = allocatedShoppingBudget - selectedPrice;
+            const merchandiseSummaryDiv = document.getElementById('merchandiseSummary');
+            merchandiseSummaryDiv.textContent = `已選商品總價：${selectedPrice} 元 / 購物可用預算：${allocatedShoppingBudget} 元 (剩餘：${currentRemaining} 元)`;
+
+            const isValid = selectedPrice >= 0 && currentRemaining >= 0;
+            if (!isValid) {
+                merchandiseSummaryDiv.classList.add('error');
+            } else {
+                merchandiseSummaryDiv.classList.remove('error');
+            }
+            document.getElementById('btnTask2').disabled = !isValid;
+        }
+
+        function checkTask2() {
+            let selectedPrice = 0;
+            document.querySelectorAll('#task2 input[name="product"]:checked').forEach(cb => {
+                selectedPrice += parseInt(cb.dataset.price);
+            });
+            const feedbackDiv = document.getElementById('feedback2');
+
+            if (selectedPrice > 0 && selectedPrice <= allocatedShoppingBudget) {
+                level2Score += 30;
+                feedbackDiv.innerHTML = '✅ 購物決策正確！你在預算範圍內獲得了心儀的商品。<br><small>註解：能夠在「購物專屬預算」內做選擇，代表你擁有良好的自我克制力，不會挪用到回家的車資或餐費。</small>';
+                feedbackDiv.className = 'feedback correct';
+            } else if (selectedPrice === 0) {
+                feedbackDiv.innerHTML = '△ 非常節省，但記得要犒賞自己喔。<br><small>註解：理財的目的是為了更開心地追星。在不超支的情況下購買紀念品，也是追星體驗中重要的一環。</small>';
+                feedbackDiv.className = 'feedback neutral';
+            } else {
+                feedbackDiv.innerHTML = '❌ 超過購物預算了！<br><small>註解：你選擇的商品總價超過了當初設定的購物預算。在現實中，這會讓你必須削減餐費或動用備用金，建議重新挑選最想要的商品。</small>';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            document.getElementById('currentScore').textContent = level2Score;
+            document.querySelectorAll('#task2 input[name="product"]').forEach(cb => cb.disabled = true);
+            document.querySelector('#task2 button').disabled = true;
+            setTimeout(showNextTask, 1500);
+        }
+
+        function checkTask3() {
+            const selectedImpulse = document.querySelector('#task3 input[name="impulse"]:checked');
+            const feedbackDiv = document.getElementById('feedback3');
+            const correctImpulseAnswer = "先確認剩餘預算";
+
+            if (selectedImpulse && selectedImpulse.value === 'B') {
+                level2Score += 20;
+                feedbackDiv.innerHTML = '✅ 極佳的決策！「確認餘額」是衝動消費的最佳解藥。<br><small>註解：面對限量的誘惑，保持冷靜並核對預算，能確保你在追星之後生活依然穩定，不會因為一時衝動而影響接下來的日常開銷。</small>';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                feedbackDiv.innerHTML = '❌ 這是不理智的行為！<br><small>註解：衝動消費是理財的大忌。借錢或透支未來的生活費會讓你陷入財務惡性循環，甚至可能引發法律或人際問題。請永遠在「當下能力範圍」內消費。</small>';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            document.getElementById('currentScore').textContent = level2Score;
+            document.querySelectorAll('#task3 input[name="impulse"]').forEach(rb => rb.disabled = true);
+            document.querySelector('#task3 button').disabled = true;
+            setTimeout(showNextTask, 1500);
+        }
+
+        function checkEmergencyEvent() {
+            const feedbackDiv = document.getElementById('feedback4');
+            if (allocatedEmergency >= 500) {
+                level2Score += 10;
+                feedbackDiv.innerHTML = '✅ 備用金發揮作用了！<br><small>註解：因為你在第一階段明智地保留了備用金，現在即便捷運停駛，你也能從容地搭計程車回家。這就是預算規劃中「不可預見支出」的價值。</small>';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                feedbackDiv.innerHTML = '⚠️ 遭遇困境！你的備用金不足以支付回程車資。<br><small>註解：這就是未規劃備用金的後果。在現實中，這可能代表你需要深夜向家人求助或受困會場。請記住：備用金是追星計畫的最後一道安全網。</small>';
+                feedbackDiv.className = 'feedback warning';
+            }
+            document.getElementById('currentScore').textContent = level2Score;
+            setTimeout(showNextTask, 2000);
+        }
+
+        function checkFinalTest() {
+            const q1 = document.getElementById('q1').value;
+            const q2 = document.getElementById('q2').value;
+            const q3 = document.getElementById('q3').value;
+            
+            let correctCount = 0;
+            if (q1 === 'B') correctCount++;
+            if (q2 === 'B') correctCount++;
+            if (q3 === 'B') correctCount++;
+            
+            const feedbackDiv = document.getElementById('feedback5');
+            if (q1 && q2 && q3 && correctCount >= 2) {
+                level2Score += 10;
+                feedbackDiv.textContent = `測驗通過 (${correctCount}/3)！理財觀念非常扎實。`;
+                feedbackDiv.className = 'feedback correct';
+                document.getElementById('currentScore').textContent = level2Score;
+                setTimeout(showNextTask, 1500);
+            } else {
+                let explanations = [];
+                if (q1 && q1 !== 'B') explanations.push('必要支出：餐費屬於生理必需，若沒有體力就無法完成追星任務。');
+                if (q2 && q2 !== 'B') explanations.push('限量商品：無論商品多吸引人，「預算是否許可」永遠是理性的第一考量。');
+                if (q3 && q3 !== 'B') explanations.push('備用金：這筆錢不是用來買更多商品，而是專門應付如交通異動等緊急狀況。');
+
+                feedbackDiv.innerHTML = `❌ 測驗未達標 (${correctCount}/3)。<br><small>${explanations.join('<br>')}</small>`;
+                feedbackDiv.className = 'feedback incorrect';
+            }
+        }
+    </script>
+</body>
+</html>

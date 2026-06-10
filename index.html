@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一次追星就上手：演唱會任務挑戰</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>第一次追星就上手：演唱會任務挑戰</h1>
+            <p>玩家將扮演第一次參加演唱會的新手粉絲，完成三個任務。</p>
+        </header>
+        <main>
+            <div class="level-selection">
+                <div class="level-card" id="level1-card">
+                    <h2>第一關：演唱會生存指南</h2>
+                    <button id="start-level1" onclick="navigateTo('pre-challenge-plan.html')">開始第一關</button>
+                </div>
+                <div class="level-card locked" id="level2-card">
+                    <h2>第二關：追星理財術</h2>
+                    <span class="lock-icon">🔒</span>
+                    <button id="start-level2" disabled>前往第二關</button>
+                </div>
+                <div class="level-card locked" id="level3-card">
+                    <h2>第三關：優質粉絲養成計畫</h2>
+                    <span class="lock-icon">🔒</span>
+                    <button id="start-level3" disabled>前往第三關</button>
+                </div>
+                <div class="level-card locked" id="knowledge-card">
+                    <h2>知識題庫區</h2>
+                    <span class="lock-icon">🔒</span>
+                    <button id="view-knowledge" disabled>進入題庫</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateLevelLocks();
+        });
+    </script>
+</body>
+</html>

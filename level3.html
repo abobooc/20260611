@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第三關：優質粉絲養成計畫</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>第三關：優質粉絲養成計畫</h1>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%;">0%</div>
+            </div>
+            <div class="score-display">分數: <span id="currentScore">0</span></div>
+        </header>
+        <main>
+            <p class="level-intro">恭喜你來到最後一關！成為一個優質的粉絲，不僅要懂得享受演唱會，更要展現良好的禮儀與判斷力。準備好接受挑戰，成為最棒的粉絲了嗎？</p>
+            <div id="task1" class="quiz-section">
+                <h3>任務一：演唱會現場禮儀</h3>
+                <p>情境：演唱會氣氛熱烈，你手持大型應援牌。請問，演唱會中可以全程高舉大型應援牌，擋住後方觀眾嗎？</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="etiquette1" value="可以，自己開心最重要"> 可以，自己開心最重要</label>
+                    <label><input type="radio" name="etiquette1" value="不可以，可能影響他人觀看權益"> 不可以，可能影響他人觀看權益</label>
+                </div>
+                <button class="next-task-button" onclick="checkTask1()" disabled>確認</button>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+
+            <div id="task2" class="quiz-section" style="display: none;">
+                <h3>任務二：網路追星禮儀</h3>
+                <p>情境：你在社群媒體上看到有人對你的偶像發表負面且不實的批評言論，你會怎麼做？</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="etiquette2" value="人身攻擊"> 人身攻擊</label>
+                    <label><input type="radio" name="etiquette2" value="洗版留言"> 洗版留言</label>
+                    <label><input type="radio" name="etiquette2" value="理性表達自己的想法"> 理性表達自己的想法</label>
+                    <label><input type="radio" name="etiquette2" value="散布對方個資"> 散布對方個資</label>
+                </div>
+                <button class="next-task-button" onclick="checkTask2()" disabled>確認</button>
+                <div id="feedback2" class="feedback"></div>
+            </div>
+
+            <div id="task3" class="quiz-section" style="display: none;">
+                <h3>任務三：資訊判讀</h3>
+                <p>情境：你在粉絲群組或論壇中，看到一則關於偶像的「獨家爆料」，但消息來源不明且未經官方證實，你應該？</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="info" value="馬上轉發"> 馬上轉發</label>
+                    <label><input type="radio" name="info" value="截圖傳群組"> 截圖傳群組</label>
+                    <label><input type="radio" name="info" value="查證消息來源"> 查證消息來源</label>
+                    <label><input type="radio" name="info" value="加油添醋再分享"> 加油添醋再分享</label>
+                </div>
+                <button class="next-task-button" onclick="checkTask3()" disabled>確認</button>
+                <div id="feedback3" class="feedback"></div>
+            </div>
+
+            <div id="level-complete" style="display: none;">
+                <h2>🎉 恭喜完成第三關！</h2>
+                <div class="achievement-list" style="text-align: left; display: inline-block; margin: 20px 0;">
+                    <p>✅ 已學會：演唱會現場禮儀</p>
+                    <p>✅ 已學會：網路追星禮儀</p>
+                    <p>✅ 已學會：資訊判讀能力</p>
+                </div>
+                <p>你已成為<strong>成熟粉絲！</strong></p>
+                <p style="font-style: italic; color: #666;">劇情：恭喜你！你已經掌握了成為一名優質粉絲的所有秘訣。現在，去查看你的最終成績吧！</p>
+                <button class="next-level-button" onclick="navigateTo('result.html')">查看最終結果</button>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        let level3Score = 0;
+        let currentTask = 1;
+        const totalTasks = 3;
+
+        const correctEtiquette1 = "不可以，可能影響他人觀看權益";
+        const correctEtiquette2 = "理性表達自己的想法";
+        const correctInfoAnswer = "查證消息來源";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgressBar();
+            document.getElementById('currentScore').textContent = level3Score;
+            document.querySelectorAll('#task1 input[name="etiquette1"]').forEach(rb => {
+                rb.addEventListener('change', () => {
+                    document.querySelector('#task1 button').disabled = false;
+                });
+            });
+            document.querySelectorAll('#task2 input[name="etiquette2"]').forEach(rb => {
+                rb.addEventListener('change', () => {
+                    document.querySelector('#task2 button').disabled = false;
+                });
+            });
+            document.querySelectorAll('#task3 input[name="info"]').forEach(rb => {
+                rb.addEventListener('change', () => {
+                    document.querySelector('#task3 button').disabled = false;
+                });
+            });
+        });
+
+        function updateProgressBar() {
+            const progress = (currentTask - 1) / totalTasks * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = `${progress}%`;
+            progressBar.textContent = `${Math.round(progress)}%`;
+        }
+
+        function showNextTask() {
+            document.getElementById(`task${currentTask}`).style.display = 'none';
+            currentTask++;
+            if (currentTask <= totalTasks) {
+                document.getElementById(`task${currentTask}`).style.display = 'block';
+                updateProgressBar();
+            } else {
+                document.getElementById('level-complete').style.display = 'block';
+                const progressBar = document.getElementById('progressBar');
+                progressBar.style.width = '100%';
+                progressBar.textContent = '100%';
+                saveProgress('level3_completed', true);
+                saveProgress('level3_score', level3Score);
+            }
+        }
+
+        function checkTask1() {
+            const selectedOption = document.querySelector('#task1 input[name="etiquette1"]:checked');
+            const feedbackDiv = document.getElementById('feedback1');
+            if (selectedOption && selectedOption.value === correctEtiquette1) {
+                level3Score += 30;
+                feedbackDiv.textContent = '✅ 正確！在演唱會中，尊重其他觀眾的觀看權益非常重要。大型應援物應避免長時間高舉，以免遮擋後方視線，讓大家都能盡情享受演出！';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                feedbackDiv.textContent = '❌ 不正確。註解：高舉大型應援牌會遮擋後方觀眾視線，影響他人觀看權益，這是不尊重他人的行為。優質粉絲會考慮到所有人的體驗喔！';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            document.getElementById('currentScore').textContent = level3Score;
+            document.querySelectorAll('#task1 input[name="etiquette1"]').forEach(rb => rb.disabled = true);
+            document.querySelector('#task1 button').disabled = true;
+            setTimeout(showNextTask, 1500);
+        }
+
+        function checkTask2() {
+            const selectedOption = document.querySelector('#task2 input[name="etiquette2"]:checked');
+            const feedbackDiv = document.getElementById('feedback2');
+            if (selectedOption && selectedOption.value === correctEtiquette2) {
+                level3Score += 30;
+                feedbackDiv.textContent = '✅ 正確！面對網路上的負面言論，理性表達自己的想法是最佳方式。這不僅能有效溝通，也能展現粉絲的成熟與素養，為偶像樹立良好形象。';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                feedbackDiv.textContent = '❌ 不正確。註解：人身攻擊、洗版或散布個資不僅無法解決問題，反而可能觸犯法律，並嚴重損害偶像和粉絲群體的形象。優質粉絲會以身作則，理性應對！';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            document.getElementById('currentScore').textContent = level3Score;
+            document.querySelectorAll('#task2 input[name="etiquette2"]').forEach(rb => rb.disabled = true);
+            document.querySelector('#task2 button').disabled = true;
+            setTimeout(showNextTask, 1500);
+        }
+
+        function checkTask3() {
+            const selectedOption = document.querySelector('#task3 input[name="info"]:checked');
+            const feedbackDiv = document.getElementById('feedback3');
+            if (selectedOption && selectedOption.value === correctInfoAnswer) {
+                level3Score += 40;
+                feedbackDiv.textContent = '✅ 正確！面對未經證實的爆料，保持冷靜並查證消息來源是聰明粉絲的表現。不盲目跟風，能有效避免謠言擴散，保護偶像和粉絲社群的健康環境。';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                feedbackDiv.textContent = '❌ 不正確。註解：未經證實的爆料可能為謠言或惡意攻擊。隨意轉發或加油添醋，會助長不實資訊的傳播，對偶像造成傷害。優質粉絲會明辨是非，只相信官方消息！';
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            document.getElementById('currentScore').textContent = level3Score;
+            document.querySelectorAll('#task3 input[name="info"]').forEach(rb => rb.disabled = true);
+            document.querySelector('#task3 button').disabled = true;
+            setTimeout(showNextTask, 1500);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一關：演唱會生存指南</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>第一關：演唱會生存指南</h1>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%;">0%</div>
+            </div>
+            <div class="score-display">分數: <span id="currentScore">0</span></div>
+        </header>
+        <main>
+            <div id="task1" class="quiz-section">
+                <h3>任務一：背包整理挑戰</h3>
+                <p>請將必備物品【拖曳】或【點擊】放入右側背包中：</p>
+                <div class="drag-container">
+                    <div id="itemPool" class="item-pool" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-1">門票</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-2">吹風機</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-3">身分證</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-4">電鍋</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-5">行動電源</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-6">錢包</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-7">枕頭</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-8">水壺</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-9">課本</div>
+                        <div class="pack-item" draggable="true" ondragstart="drag(event)" onclick="moveItem(this)" id="item-10">交通資訊</div>
+                    </div>
+                    <div id="backpackZone" class="backpack-zone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="backpack-label">🎒 我的背包</div>
+                        <p class="drop-hint">拖曳物品到此</p>
+                    </div>
+                </div>
+                <button class="next-task-button" id="btnTask1" onclick="checkTask1()">確認準備出發</button>
+                <div id="feedback1" class="feedback"></div>
+            </div>
+
+            <div id="task2" class="quiz-section" style="display: none;">
+                <h3>任務二：時間管理挑戰</h3>
+                <p>情境：演唱會 18:00 開始，16:00 開放入場。從家到場館搭捷運需要 60 分鐘，你應該幾點出門？</p>
+                <div class="quiz-options">
+                    <label><input type="radio" name="time" value="A"> A. 17:30</label>
+                    <label><input type="radio" name="time" value="B"> B. 16:50</label>
+                    <label><input type="radio" name="time" value="C"> C. 15:00</label>
+                    <label><input type="radio" name="time" value="D"> D. 14:30</label>
+                </div>
+                <button class="next-task-button" onclick="checkTask2()" id="btnTask2" disabled>確認時間</button>
+                <div id="feedback2" class="feedback"></div>
+            </div>
+
+            <div id="task3" class="quiz-section" style="display: none;">
+                <h3>任務三：突發狀況挑戰</h3>
+                <div id="scenario1">
+                    <p>【狀況一】進場前發現電子票券打不開，該怎麼辦？</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="scen1" value="A"> A. 直接回家</label>
+                        <label><input type="radio" name="scen1" value="B"> B. 向黃牛購票</label>
+                        <label><input type="radio" name="scen1" value="C"> C. 嘗試重新連線並向工作人員尋求協助</label>
+                        <label><input type="radio" name="scen1" value="D"> D. 用朋友的票入場</label>
+                    </div>
+                </div>
+                <div id="scenario2" style="display:none;">
+                    <p>【狀況二】演唱會開始前發現應援棒沒電，該怎麼辦？</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="scen2" value="A"> A. 生氣地責怪朋友</label>
+                        <label><input type="radio" name="scen2" value="B"> B. 詢問場館附近是否有販售電池</label>
+                        <label><input type="radio" name="scen2" value="C"> C. 強迫旁邊觀眾借你</label>
+                        <label><input type="radio" name="scen2" value="D"> D. 放棄觀看演唱會</label>
+                    </div>
+                </div>
+                <div id="scenario3" style="display:none;">
+                    <p>【狀況三】下雨了，但你沒帶雨具，該怎麼辦？</p>
+                    <div class="quiz-options">
+                        <label><input type="radio" name="scen3" value="A"> A. 衝進會場不管安全</label>
+                        <label><input type="radio" name="scen3" value="B"> B. 購買雨具或尋找遮蔽處</label>
+                        <label><input type="radio" name="scen3" value="C"> C. 插隊進場</label>
+                        <label><input type="radio" name="scen3" value="D"> D. 推擠其他觀眾</label>
+                    </div>
+                </div>
+                <button class="next-task-button" id="btnTask3" onclick="checkTask3()" disabled>確認選擇</button>
+                <div id="feedback3" class="feedback"></div>
+            </div>
+
+            <div id="task4" class="quiz-section" style="display: none;">
+                <h3>關卡總測驗</h3>
+                <div class="test-item">
+                    <p>1. 下列何者屬於演唱會必備物品？</p>
+                    <select id="q1"><option value="">請選擇</option><option value="A">A. 門票</option><option value="B">B. 枕頭</option><option value="C">C. 電鍋</option></select>
+                </div>
+                <div class="test-item">
+                    <p>2. 規劃交通時最重要的是？</p>
+                    <select id="q2"><option value="">請選擇</option><option value="A">A. 盡量晚出門</option><option value="B">B. 完全不查路線</option><option value="C">C. 預留緩衝時間</option></select>
+                </div>
+                <div class="test-item">
+                    <p>3. 遇到票券問題時應該？</p>
+                    <select id="q3"><option value="">請選擇</option><option value="A">A. 尋求官方協助</option><option value="B">B. 購買黃牛票</option><option value="C">C. 放棄入場</option></select>
+                </div>
+                <button class="next-task-button" onclick="checkFinalTest()">送出測驗</button>
+                <div id="feedbackFinal" class="feedback"></div>
+            </div>
+
+            <div id="level-complete" style="display: none;">
+                <h2>🎉 恭喜完成第一關！</h2>
+                <div class="achievement-list">
+                    <p>✅ 已學會：出發前準備</p>
+                    <p>✅ 已學會：時間規劃能力</p>
+                    <p>✅ 已學會：突發狀況應變</p>
+                </div>
+                <p>獲得稱號：<strong>🏅 演唱會生存新手</strong></p>
+                <button class="next-level-button" onclick="navigateTo('level2.html')">前往第二關</button>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        let level1Score = 0;
+        let currentTask = 1; 
+        const totalTasks = 4; // Task 1, 2, 3, and Final
+        const correctItems = ["門票", "身分證", "行動電源", "錢包", "水壺", "交通資訊"];
+
+        // Drag and Drop Logic
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var el = document.getElementById(data);
+            var target = ev.target.closest('.item-pool, .backpack-zone');
+            if (target) target.appendChild(el);
+        }
+
+        function moveItem(el) {
+            const pool = document.getElementById('itemPool');
+            const backpack = document.getElementById('backpackZone');
+            if (el.parentNode === pool) {
+                backpack.appendChild(el);
+            } else {
+                pool.appendChild(el);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgressBar();
+            document.getElementById('currentScore').textContent = level1Score;
+            document.querySelectorAll('#task2 input[name="time"]').forEach(rb => {
+                rb.addEventListener('change', () => {
+                    document.getElementById('btnTask2').disabled = false;
+                });
+            });
+            
+            // Task 3 radio listeners
+            ['scen1', 'scen2', 'scen3'].forEach(name => {
+                document.querySelectorAll(`input[name="${name}"]`).forEach(rb => {
+                    rb.addEventListener('change', () => {
+                        document.getElementById('btnTask3').disabled = false;
+                    });
+                });
+            });
+        });
+
+        function updateProgressBar() {
+            const progress = (currentTask - 1) / totalTasks * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = `${progress}%`;
+            progressBar.textContent = `${Math.round(progress)}%`;
+        }
+
+        function showNextTask() {
+            document.getElementById(`task${currentTask}`).style.display = 'none';
+            currentTask++;
+            if (currentTask <= totalTasks) {
+                document.getElementById(`task${currentTask}`).style.display = 'block';
+                updateProgressBar();
+            } else {
+                document.getElementById('level-complete').style.display = 'block';
+                const progressBar = document.getElementById('progressBar');
+                progressBar.style.width = '100%';
+                progressBar.textContent = '100%';
+                saveProgress('level1_completed', true);
+                saveProgress('level1_score', level1Score);
+            }
+        }
+
+        function checkTask1() {
+            const backpackItems = Array.from(document.getElementById('backpackZone').querySelectorAll('.pack-item'))
+                                       .map(el => el.textContent.trim());
+            
+            const feedbackDiv = document.getElementById('feedback1');
+            const isCorrect = correctItems.every(i => backpackItems.includes(i)) && 
+                              backpackItems.every(i => correctItems.includes(i));
+
+            if (isCorrect) {
+                level1Score += 25;
+                feedbackDiv.innerHTML = '✅ 恭喜！你準備得非常周全。<br><small>註解：門票與身分證是入場核心；行動電源確保電子票券與聯絡不中斷；水壺補充體力；交通資訊則能避免迷路。</small>';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                feedbackDiv.innerHTML = '⚠️ 檢查一下，背包裡似乎少了關鍵物品，或者帶了不必要的重物。<br><small>註解：像電鍋、吹風機等物品會增加負擔且無法帶入會場。請確保帶齊門票、身分證、行動電源、錢包、水壺及交通資訊這六項必備品。</small>';
+                feedbackDiv.className = 'feedback warning';
+            }
+            document.getElementById('currentScore').textContent = level1Score;
+            document.getElementById('itemPool').style.pointerEvents = 'none';
+            document.getElementById('backpackZone').style.pointerEvents = 'none';
+            setTimeout(showNextTask, 1500);
+        }
+
+        function checkTask2() {
+            const selectedTime = document.querySelector('#task2 input[name="time"]:checked');
+            const feedbackDiv = document.getElementById('feedback2');
+            
+            const val = selectedTime.value;
+            if (val === 'C') {
+                level1Score += 25;
+                feedbackDiv.innerHTML = '✅ 最佳選擇！15:00 出門最為穩妥。<br><small>註解：預留 1 小時車程與 2 小時的緩衝（包含取票、排隊及突發路況），能讓你從容不迫地進入會場，享受開演前的氣氛。</small>';
+                feedbackDiv.className = 'feedback correct';
+            } else if (val === 'A') {
+                feedbackDiv.innerHTML = '❌ 太晚了！17:30 出門極度危險。<br><small>註解：18:00 開始，17:30 才出發會完全錯過開場。演唱會通常有嚴格的入場時間限制，遲到可能會影響其他觀眾或被延後進場。</small>';
+                feedbackDiv.className = 'feedback incorrect';
+            } else if (val === 'B') {
+                feedbackDiv.innerHTML = '❌ 風險過高！16:50 出門時間太緊湊。<br><small>註解：雖然看起來趕得上開演，但忽略了排隊進場及安檢所需的大量時間，若捷運稍有延誤就會遲到。</small>';
+                feedbackDiv.className = 'feedback incorrect';
+            } else {
+                feedbackDiv.innerHTML = '△ 非常謹慎，但 14:30 出門可能太早了。<br><small>註解：雖然能絕對保證準時，但在場館外等待時間過長會消耗過多體力。理想的計畫應兼顧安全感與體力分配。</small>';
+                feedbackDiv.className = 'feedback neutral';
+            }
+
+            document.getElementById('currentScore').textContent = level1Score;
+            document.querySelectorAll('#task2 input[name="time"]').forEach(rb => rb.disabled = true);
+            document.querySelector('#task2 button').disabled = true;
+            setTimeout(showNextTask, 1500);
+        }
+
+        let currentScenario = 1;
+        function checkTask3() {
+            const feedbackDiv = document.getElementById('feedback3');
+            const ans = document.querySelector(`#scenario${currentScenario} input:checked`).value;
+            
+            let isCorrect = false;
+            if (currentScenario === 1 && ans === 'C') isCorrect = true;
+            if (currentScenario === 2 && ans === 'B') isCorrect = true;
+            if (currentScenario === 3 && ans === 'B') isCorrect = true;
+
+            if (isCorrect) {
+                level1Score += 10;
+                feedbackDiv.innerHTML = '✅ 正確判斷！冷靜應對是解決問題的關鍵。<br><small>註解：尋求官方工作人員協助是解決技術問題最安全、最有效的方式。</small>';
+                feedbackDiv.className = 'feedback correct';
+            } else {
+                let comment = '';
+                if (currentScenario === 1) comment = '註解：電子票打不開應找官方人員尋求後台查驗；向黃牛購票不僅違法，更有可能買到無效票券。';
+                else if (currentScenario === 2) comment = '註解：應援棒沒電可找官方櫃檯或附近商店更換電池；強行向他人索取或責怪朋友都會破壞追星的心情與禮儀。';
+                else if (currentScenario === 3) comment = '註解：雨天應優先確保個人安全與健康，尋求遮蔽或購買雨具；推擠或插隊不僅不禮貌，在濕滑場地更容易導致受傷。';
+                
+                feedbackDiv.textContent = '❌ ' + comment;
+                feedbackDiv.className = 'feedback incorrect';
+            }
+            document.getElementById('currentScore').textContent = level1Score;
+            
+            setTimeout(() => {
+                feedbackDiv.textContent = '';
+                document.getElementById(`scenario${currentScenario}`).style.display = 'none';
+                currentScenario++;
+                if (currentScenario <= 3) {
+                    document.getElementById(`scenario${currentScenario}`).style.display = 'block';
+                    document.getElementById('btnTask3').disabled = true;
+                } else {
+                    showNextTask();
+                }
+            }, 1200);
+        }
+
+        function checkFinalTest() {
+            const q1 = document.getElementById('q1').value; // A
+            const q2 = document.getElementById('q2').value; // C
+            const q3 = document.getElementById('q3').value; // A
+
+            let correctCount = 0;
+            if (q1 === 'A') correctCount++;
+            if (q2 === 'C') correctCount++;
+            if (q3 === 'A') correctCount++;
+            
+            const feedbackDiv = document.getElementById('feedbackFinal');
+            if (q1 && q2 && q3 && correctCount >= 2) {
+                level1Score += 20;
+                feedbackDiv.textContent = `測驗通過 (${correctCount}/3)！進入結算。`;
+                feedbackDiv.className = 'feedback correct';
+                document.getElementById('currentScore').textContent = level1Score;
+                setTimeout(showNextTask, 1500);
+            } else {
+                let explanations = [];
+                if (q1 && q1 !== 'A') explanations.push('門票：這是進入演唱會現場最核心、唯一的憑證。');
+                if (q2 && q2 !== 'C') explanations.push('時間：預留足夠的緩衝時間是應對突發交通路況的最佳策略。');
+                if (q3 && q3 !== 'A') explanations.push('應變：遇到任何官方發行的票券問題，第一時間應找官方工作人員解決。');
+
+                feedbackDiv.innerHTML = `❌ 測驗未達標 (${correctCount}/3)。<br><small>${explanations.join('<br>')}</small>`;
+                feedbackDiv.className = 'feedback incorrect';
+            }
+        }
+    </script>
+</body>
+</html>
