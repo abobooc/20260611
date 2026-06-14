@@ -9,13 +9,13 @@ const acceptMission = () => {
   currentStep.value = 'stage1';
 };
 
-// 第一關：戰備檢查清單（將後續關卡知識埋入）
+// 第一關：行前戰備檢查資料
 const equipmentList = ref([
-  { id: 1, text: '實體/電子票券 (確認座位與入場唯一憑證)', required: true, checked: false },
-  { id: 2, text: '有效身分證件 (實名制核對，沒帶會被擋在門外)', required: true, checked: false },
-  { id: 3, text: '備用現金 (現場通訊不穩時，電子支付可能失效)', required: true, checked: false },
-  { id: 4, text: '突發狀況備案 (下載場館地圖、記下官方服務處位置)', required: false, checked: false },
-  { id: 5, text: '觀演禮儀須知 (確認禁止攜帶物品，避免成為雷隊友)', required: false, checked: false },
+  { id: 1, text: '偶像演唱會門票 (實體或電子)', required: true, checked: false },
+  { id: 2, text: '有效身份證件 (驗證身分用)', required: true, checked: false },
+  { id: 3, text: '足夠的應急現金 (非電子支付)', required: true, checked: false },
+  { id: 4, text: '行動電源 (確保續航力)', required: false, checked: false },
+  { id: 5, text: '應援裝備 (手燈或毛巾)', required: false, checked: false },
 ]);
 
 const checkEquipment = () => {
@@ -37,7 +37,7 @@ const checkEquipment = () => {
 
 const nextMission = () => {
   alert('正在載入【任務 02：追星理財術】...');
-  // 此處可根據你的 router 設定跳轉：router.push('/budget')
+  // 未來在這裡切換路由
 };
 </script>
 
@@ -46,12 +46,12 @@ const nextMission = () => {
     <!-- 背景裝飾：電子網格 -->
     <div class="bg-grid"></div>
 
-    <!-- 階段一：任務簡報 -->
-    <div v-if="currentStep === 'briefing'" class="mission-container fade-in">
+    <!-- 階段 0：劇情導入 (這就是你要的沉浸式開場！) -->
+    <div v-if="currentStep === 'intro'" class="mission-container fade-in">
       <!-- 標題區 -->
       <header class="mission-header">
         <div class="glitch-wrapper">
-          <h1 class="glitch-text">《第一次追星就上手》</h1>
+          <h1 class="glitch-text">《第一次追星就上手：演唱會任務挑戰》</h1>
         </div>
         <div class="mission-tag">演唱會任務挑戰</div>
       </header>
@@ -59,26 +59,42 @@ const nextMission = () => {
       <!-- 劇情導入：營造緊張感 -->
       <section class="story-section">
         <div class="story-card">
-          <p class="announcement">🎉 恭喜！經過漫長的搶票戰爭，你成功搶到了偶像的門票！</p>
-          <p>距離演唱會開始還有 <span class="countdown">24 小時</span>。</p>
-          <p>這是你人生的第一次線下活動，你既興奮又不安...</p>
-          <p>你打開社群平台，看到大家正在熱烈討論：</p>
+          <p class="announcement">🎉 恭喜！</p>
+          <p>經過漫長的搶票戰爭，你終於成功搶到偶像的演唱會門票。</p>
+          <p>距離演唱會開始還有 <span class="countdown">24 小時</span>。這是你的第一次線下活動。</p>
+          <p>然而…… 你打開社群平台，看到大家正在討論：</p>
 
           <div class="social-feed">
             <div class="feed-header">📱 熱門討論</div>
-            <div class="comment-bubble">💬 「大家證件一定要帶，上次有人沒帶被擋在門外...」</div>
-            <div class="comment-bubble">💬 「記得留備用金，現場週邊太好買了，差點沒錢坐車回家。」</div>
-            <div class="comment-bubble">💬 「網路上那些非官方消息別亂傳，很容易被騙！」</div>
+            <div class="comment-bubble">💬 「證件一定要記得帶！」</div>
+            <div class="comment-bubble">💬 「還好我有留備用金，不然差點回不了家。」</div>
+            <div class="comment-bubble">💬 「不要亂轉傳未經證實的消息！」</div>
+            <div class="comment-bubble">💬 「演唱會現場真的很多突發狀況。」</div>
           </div>
           
-          <p class="nervous-hint">看到這些留言，你突然手心冒汗... 你真的準備好了嗎？</p>
+          <p class="nervous-hint">看到這些留言後，你突然有點緊張... 你真的準備好了嗎？</p>
+
+          <div class="button-wrapper">
+            <button class="action-btn" @click="currentStep = 'briefing'">
+              【 開始我的演唱會任務 】
+            </button>
+          </div>
         </div>
       </section>
+    </div>
 
-      <!-- 任務簡報面板 (RPG風格) -->
+    <!-- 階段一：任務簡報 (點擊按鈕後才出現，不再像 PPT 大綱) -->
+    <div v-else-if="currentStep === 'briefing'" class="mission-container fade-in">
+      <header class="mission-header">
+        <div class="glitch-wrapper">
+          <h1 class="glitch-text">任務目標</h1>
+        </div>
+        <div class="mission-tag">MISSION BRIEFING</div>
+      </header>
+
       <section class="mission-briefing">
         <div class="briefing-panel">
-          <h2 class="panel-title">📋 任務簡報 (Mission Briefing)</h2>
+          <h2 class="panel-title">📋 主線任務：參加人生第一場演唱會</h2>
           
           <div class="grid-layout">
             <!-- 已知情報：對應原本的第一關內容 -->
@@ -117,9 +133,10 @@ const nextMission = () => {
 
           <!-- 任務啟動按鈕 -->
           <div class="button-wrapper">
-            <button class="action-btn" @click="acceptMission">
-              【 接受任務：啟動演唱會之旅 】
+            <button class="action-btn" @click="currentStep = 'stage1'">
+              【 接受任務：整理行前裝備 】
             </button>
+            <button class="back-link" @click="currentStep = 'intro'">返回劇情</button>
           </div>
         </div>
       </section>
@@ -127,10 +144,10 @@ const nextMission = () => {
 
     <!-- 階段二：行前計畫清單 (互動掃描儀) -->
     <div v-else-if="currentStep === 'stage1'" class="mission-container checklist-screen fade-in">
-      <div class="scanner-ui neon-border">
+      <div class="scanner-ui">
         <header class="scanner-header">
           <span class="status-dot pulsing"></span>
-          <h2>🎒 任務 01：背包戰備掃描</h2>
+          <h2>背包戰備掃描儀 v1.0</h2>
           <p class="subtitle">請確認已勾選並裝入所有「必要」物品</p>
         </header>
 
@@ -143,7 +160,7 @@ const nextMission = () => {
             </div>
             <label :for="'item-' + item.id">
               <span class="item-text">{{ item.text }}</span>
-              <span v-if="item.required" class="required-tag">必要</span>
+              <span v-if="item.required" class="required-tag">ESSENTIAL</span>
             </label>
           </div>
 
@@ -164,7 +181,7 @@ const nextMission = () => {
       <div class="success-panel text-center">
         <div class="success-icon">✔️</div>
         <h2 class="text-gold">裝備檢查合格！</h2>
-        <p>很好，你已經具備了入場的基本資格。但在演唱會現場，真正的挑戰才剛要開始...</p>
+        <p>你已獲得「追星生存新手包」，這將增加你 50% 的生存機率。</p>
         <div class="button-wrapper">
           <button class="action-btn next-btn" @click="nextMission">
             【 進入下一個挑戰：理財預算 】
@@ -221,11 +238,20 @@ const nextMission = () => {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.game-start-screen {
+  background-color: #0f0f0f;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  padding: 20px;
+}
+
 .mission-container {
   max-width: 900px;
   width: 100%;
   color: #f0f0f0;
-  font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
 /* 剩餘樣式維持一致並優化 */
 .mission-header {
@@ -298,17 +324,13 @@ const nextMission = () => {
 .info-box ul { padding-left: 20px; font-size: 0.9rem; color: #ccc; }
 .checkbox-group { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-size: 0.9rem; }
 
-/* 掃描儀強化視覺 */
-.neon-border {
-  border: 2px solid #ffd700;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 10px rgba(255, 215, 0, 0.1);
-}
-
 /* 清單樣式 */
 .checklist-card {
   background: #1a1a1a;
+  border: 2px solid #ffd700;
   padding: 40px;
   border-radius: 4px;
+  box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.1);
 }
 
 .check-item {
