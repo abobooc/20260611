@@ -1,16 +1,58 @@
 <script setup>
-const startMission = () => {
-  alert('【系統提示】任務正式啟動！正在掃描行前裝備狀態...');
-  // 這裡之後可以連接到路由切換
-}
+import { ref } from 'vue';
+
+const currentStep = ref('briefing'); // 'briefing', 'stage1', 'success'
+const scanning = ref(false);
+const scanError = ref('');
+
+const acceptMission = () => {
+  currentStep.value = 'stage1';
+};
+
+// 第一關：戰備檢查清單（將後續關卡知識埋入）
+const equipmentList = ref([
+  { id: 1, text: '實體/電子票券 (確認座位與入場唯一憑證)', required: true, checked: false },
+  { id: 2, text: '有效身分證件 (實名制核對，沒帶會被擋在門外)', required: true, checked: false },
+  { id: 3, text: '備用現金 (現場通訊不穩時，電子支付可能失效)', required: true, checked: false },
+  { id: 4, text: '突發狀況備案 (下載場館地圖、記下官方服務處位置)', required: false, checked: false },
+  { id: 5, text: '觀演禮儀須知 (確認禁止攜帶物品，避免成為雷隊友)', required: false, checked: false },
+]);
+
+const checkEquipment = () => {
+  scanning.value = true;
+  scanError.value = '';
+
+  const missingRequired = equipmentList.value.filter(item => item.required && !item.checked);
+  
+  // 模擬掃描動畫 1 秒
+  setTimeout(() => {
+    scanning.value = false;
+    if (missingRequired.length > 0) {
+      scanError.value = `掃描失敗：缺少關鍵裝備 [${missingRequired[0].text}]`;
+    } else {
+      currentStep.value = 'success';
+    }
+  }, 1000);
+};
+
+const nextMission = () => {
+  alert('正在載入【任務 02：追星理財術】...');
+  // 此處可根據你的 router 設定跳轉：router.push('/budget')
+};
 </script>
 
 <template>
   <main class="game-start-screen">
-    <div class="mission-container">
+    <!-- 背景裝飾：電子網格 -->
+    <div class="bg-grid"></div>
+
+    <!-- 階段一：任務簡報 -->
+    <div v-if="currentStep === 'briefing'" class="mission-container fade-in">
       <!-- 標題區 -->
       <header class="mission-header">
-        <h1>🎫《第一次追星就上手：演唱會任務挑戰》</h1>
+        <div class="glitch-wrapper">
+          <h1 class="glitch-text">《第一次追星就上手》</h1>
+        </div>
         <div class="mission-tag">演唱會任務挑戰</div>
       </header>
 
@@ -75,41 +117,126 @@ const startMission = () => {
 
           <!-- 任務啟動按鈕 -->
           <div class="button-wrapper">
-            <button class="action-btn" @click="startMission">
+            <button class="action-btn" @click="acceptMission">
               【 接受任務：啟動演唱會之旅 】
             </button>
           </div>
         </div>
       </section>
     </div>
+
+    <!-- 階段二：行前計畫清單 (互動掃描儀) -->
+    <div v-else-if="currentStep === 'stage1'" class="mission-container checklist-screen fade-in">
+      <div class="scanner-ui neon-border">
+        <header class="scanner-header">
+          <span class="status-dot pulsing"></span>
+          <h2>🎒 任務 01：背包戰備掃描</h2>
+          <p class="subtitle">請確認已勾選並裝入所有「必要」物品</p>
+        </header>
+
+        <div class="checklist-card">
+          <div v-for="item in equipmentList" :key="item.id" 
+               class="check-item" :class="{ 'checked': item.checked }">
+            <div class="checkbox-custom">
+              <input type="checkbox" :id="'item-' + item.id" v-model="item.checked">
+              <div class="box"></div>
+            </div>
+            <label :for="'item-' + item.id">
+              <span class="item-text">{{ item.text }}</span>
+              <span v-if="item.required" class="required-tag">必要</span>
+            </label>
+          </div>
+
+          <div v-if="scanError" class="error-msg shake">{{ scanError }}</div>
+
+          <div class="button-wrapper">
+            <button class="action-btn scan-btn" :disabled="scanning" @click="checkEquipment">
+              {{ scanning ? '正在掃描中...' : '【 執行掃描 】' }}
+            </button>
+            <button class="back-link" @click="currentStep = 'briefing'">返回任務簡報</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 成功畫面 -->
+    <div v-else-if="currentStep === 'success'" class="mission-container fade-in">
+      <div class="success-panel text-center">
+        <div class="success-icon">✔️</div>
+        <h2 class="text-gold">裝備檢查合格！</h2>
+        <p>很好，你已經具備了入場的基本資格。但在演唱會現場，真正的挑戰才剛要開始...</p>
+        <div class="button-wrapper">
+          <button class="action-btn next-btn" @click="nextMission">
+            【 進入下一個挑戰：理財預算 】
+          </button>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
 <style scoped>
+/* 基礎樣式 */
 .game-start-screen {
-  background-color: #0f0f0f;
+  background-color: #0a0a0a;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-  padding: 20px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 215, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: 0;
+}
+
+.mission-container {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  width: 95%;
+  color: #f0f0f0;
+}
+
+/* 標題與動畫 */
+.glitch-text {
+  font-size: 3rem;
+  color: #ffd700;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.text-gold { color: #ffd700; }
+
+.fade-in { animation: fadeIn 0.5s ease-out forwards; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .mission-container {
   max-width: 900px;
   width: 100%;
   color: #f0f0f0;
+  font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
 }
-
+/* 剩餘樣式維持一致並優化 */
 .mission-header {
   text-align: center;
   margin-bottom: 40px;
 }
+.subtitle { color: #888; margin-top: 10px; }
 
 .mission-header h1 {
-  font-size: 2.5rem;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  font-size: 2.8rem;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
   margin-bottom: 10px;
 }
 
@@ -170,6 +297,53 @@ const startMission = () => {
 .info-box h3 { font-size: 1rem; color: #ffd700; border-bottom: 1px solid #444; padding-bottom: 10px; }
 .info-box ul { padding-left: 20px; font-size: 0.9rem; color: #ccc; }
 .checkbox-group { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; font-size: 0.9rem; }
+
+/* 掃描儀強化視覺 */
+.neon-border {
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 10px rgba(255, 215, 0, 0.1);
+}
+
+/* 清單樣式 */
+.checklist-card {
+  background: #1a1a1a;
+  padding: 40px;
+  border-radius: 4px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  transition: 0.3s;
+}
+
+.check-item:hover { background: rgba(255, 215, 0, 0.05); }
+
+.check-item input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  margin-right: 15px;
+  accent-color: #ffd700;
+}
+
+.item-text { font-size: 1.1rem; }
+
+.required-tag {
+  background: #ff4500;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.back-link {
+  background: none; border: none; color: #666; cursor: pointer; margin-top: 20px; text-decoration: underline;
+}
 
 .button-wrapper { text-align: center; margin-top: 40px; }
 
